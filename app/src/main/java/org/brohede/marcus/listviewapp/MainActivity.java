@@ -2,16 +2,41 @@ package org.brohede.marcus.listviewapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     // Let the static raw data that you use in your ListView be created here as a
     // member variable to the MainActivity class.
-
+    public ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listView = (ListView) findViewById(R.id.listview);
+        String [] mountains = {"Mt. Everest", "K2", "Kangchenjunga", "Lhotse", "Makalu", "Cho Oyu", "Dhaulagiri", "Manaslu", "Nanga Parbat", "Annapurna"};
+        final String [] heights = {"8,848m", "8,611m", "8,586m", "8,516m", "8,485m", "8,201m", "8,167m", "8,163m", "8,126m", "8,091m"};
+
+        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.itemTextView, mountains);
+        listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String mountain = String.valueOf(adapterView.getItemAtPosition(i));
+                        String height = heights[i];
+                        String mountainHeight = mountain+" - "+height;
+                        Toast.makeText(MainActivity.this, mountainHeight, Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
         // The onCreate method is run when the app is created.
         // Before you can implement this you need to create the layout xml files that
         // will hold/show your data created here. You need three create things:
